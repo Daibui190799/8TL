@@ -14,19 +14,23 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.qlbh.dao.CHECKINDAO;
 import com.qlbh.dao.QLNVDAO;
 import com.qlbh.entity.CHECKIN;
 import com.qlbh.entity.EMPLOYEE;
+import com.qlbh.utils.Auth;
 import com.qlbh.utils.MsgBox;
+import com.qlbh.utils.XDate;
 import com.qlbh.utils.XImage;
+import com.qlbh.utils.getInfo;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.JPanel;
@@ -44,6 +48,7 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
     private Webcam webcam = null;
     private final Executor executor = Executors.newSingleThreadExecutor(this);
     File f = new File("");
+    int numberCheck = 0;
 
     public CheckIn() {
         initComponents();
@@ -52,20 +57,23 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
         showPanelMenu(pnl_logo_check);
         lbl_img.setIcon(XImage.ResizeImage(lbl_img.getWidth(), lbl_img.getHeight(), f.getAbsolutePath() + "\\src\\main\\resources\\com\\qlbh\\icon\\CheckIn\\Avatar_checkIn.jpg"));
         lbl_checkIn_logoQR.setIcon(XImage.ResizeImage(lbl_checkIn_logoQR.getWidth(), lbl_checkIn_logoQR.getHeight(), f.getAbsolutePath() + "\\src\\main\\resources\\com\\qlbh\\icon\\CheckIn\\QR-code_checkIn.jpg"));
-
+        btn_CheckOut.setVisible(false);
+        btn_CheckOut.setEnabled(false);
     }
 
     private void initWebcam() {
+        if (numberCheck > 3) {
+            JOptionPane.showMessageDialog(this, "You have checked more than allowed!", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            numberCheck = 0;
+        }
         Dimension size = WebcamResolution.QVGA.getSize();
         webcam = Webcam.getWebcams().get(0);
         webcam.setViewSize(size);
-
         cam_panel = new WebcamPanel(webcam);
         cam_panel.setPreferredSize(size);
         //cam_panel.setFPSDisplayed(true);
-
         pnl_camera.add(cam_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 370));
-
         executor.execute(this);
     }
 
@@ -74,50 +82,89 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
         pnl_logo_check.setVisible(false);
         pnl_image.setVisible(false);
         pnl_camera.setVisible(false);
-
         // show form lên khi click vào menu
         pnl.setVisible(true);
     }
 
     QLNVDAO qlnvdao = new QLNVDAO();
     CHECKIN ck = new CHECKIN();
-    int checkout = 0;
-    String date = java.time.LocalDate.now().toString();
-    String[] timeIn = java.time.LocalTime.now().toString().split("\\.");
+    DateTimeFormatter fmDateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+    public void setEnableButton(String addorEdit) {
+        if (addorEdit.equalsIgnoreCase("out")) {
+            btn_CheckIn.setEnabled(false);
+            btn_CheckIn.setVisible(false);
+            btn_CheckOut.setVisible(true);
+            btn_CheckOut.setEnabled(true);
+        }
+    }
 
     private void fillInfo() {
+        LocalDateTime now = LocalDateTime.now();
         String id = lbl_ID.getText();
         EMPLOYEE epl = qlnvdao.selectebyID(id);
 
-        if (epl != null) {
-            lbl_img.setIcon(XImage.ResizeImage(lbl_img.getWidth(), lbl_img.getHeight(), f.getAbsolutePath() + "\\src\\main\\resources\\com\\qlbh\\icon\\Employee\\ImageEmployee\\" + epl.getHINH()));
+        if (id.equals(Auth.user.getMANV())) {
+            if (epl != null) {
+                lbl_img.setIcon(XImage.ResizeImage(lbl_img.getWidth(), lbl_img.getHeight(), f.getAbsolutePath() + "\\src\\main\\resources\\com\\qlbh\\icon\\Employee\\ImageEmployee\\" + epl.getHINH()));
+                lbl_name.setText(epl.getHOTENNV());
 
-            System.out.println(epl.getHINH());
-            lbl_name.setText(epl.getHOTENNV());
+                String role = String.valueOf(epl.isVAITRO());
+                if (role.equals("true")) {
+                    role = "Manager";
+                } else {
+                    role = "Employee";
+                }
+                lbl_role.setText(role);
 
-            String role = String.valueOf(epl.isVAITRO());
-            if (role.equals("true")) {
-                role = "Manager";
+                if (btn_CheckIn.isVisible()) {
+                    lbl_timeIN.setText(fmDateTime.format(now));
+                } else {
+                    CHECKIN chk = getInfo.checkin;
+                    lbl_timeIN.setText(XDate.toString(chk.getLUOTVAO(), "dd/MM/yyyy HH:mm:ss"));
+                    lbl_timeOUT.setText(fmDateTime.format(now));
+                }
             } else {
-                role = "Employee";
+                JOptionPane.showMessageDialog(this, "No infomation!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            lbl_role.setText(role);
-
-            if (checkout == 0) {
-                lbl_timeIN.setText("<html>"+date +"<br>"+ timeIn[0]);
-                checkout++;
-            } else {
-                lbl_timeOUT.setText("<html>"+date +"<br>"+ timeIn[0]);
-                checkout--;
-            }
-
         } else {
-            JOptionPane.showMessageDialog(this, "No infomation!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please use your employee card!", "Error", JOptionPane.ERROR_MESSAGE);
+            clearForm();
         }
+
     }
-    
+
+    private CHECKIN getForm() {
+        CHECKIN chk = new CHECKIN();
+        chk.setMANV(lbl_ID.getText());
+        if (btn_CheckIn.isEnabled()) {
+            chk.setLUOTVAO(XDate.toDate(lbl_timeIN.getText(), "dd/MM/yyyy HH:mm:ss"));
+        }
+        if (btn_CheckOut.isEnabled()) {
+            chk.setLUOTRA(XDate.toDate(lbl_timeOUT.getText(), "dd/MM/yyyy HH:mm:ss"));
+        }
+
+        return chk;
+    }
+
     private void conFirm() {
-    
+        CHECKINDAO qlcheckindao = new CHECKINDAO();
+        if (btn_CheckIn.isEnabled()) {
+            CHECKIN chk = getForm();
+            qlcheckindao.update_IN(chk);
+            MsgBox.alert(this, "Check in Successfully!");
+            getInfo.checkin = chk;
+            this.dispose();
+            // run home
+            home h = new home();
+            h.setVisible(true);
+        }
+        if (btn_CheckOut.isEnabled()) {
+            CHECKIN chk = getForm();
+            qlcheckindao.update_OUT(chk);
+            MsgBox.alert(this, "Check out Successfully!");
+            System.exit(0);
+        }
     }
 
     private void clearForm() {
@@ -154,8 +201,10 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
         lbl_role = new javax.swing.JLabel();
         lbl_name = new javax.swing.JLabel();
         lbl_ID = new javax.swing.JLabel();
-        btn_Checkin_Confirm = new com.k33ptoo.components.KButton();
+        jPanel7 = new javax.swing.JPanel();
         btn_Checkin_Reset = new com.k33ptoo.components.KButton();
+        btn_CheckIn = new com.k33ptoo.components.KButton();
+        btn_CheckOut = new com.k33ptoo.components.KButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         pnl_logo_check = new javax.swing.JPanel();
@@ -277,20 +326,8 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 330, 220));
 
-        btn_Checkin_Confirm.setText("CONFIRM");
-        btn_Checkin_Confirm.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_Checkin_Confirm.setkEndColor(new java.awt.Color(0, 112, 192));
-        btn_Checkin_Confirm.setkHoverEndColor(new java.awt.Color(0, 30, 153));
-        btn_Checkin_Confirm.setkHoverForeGround(new java.awt.Color(255, 255, 255));
-        btn_Checkin_Confirm.setkHoverStartColor(new java.awt.Color(0, 30, 153));
-        btn_Checkin_Confirm.setkPressedColor(new java.awt.Color(153, 153, 153));
-        btn_Checkin_Confirm.setkStartColor(new java.awt.Color(0, 79, 174));
-        btn_Checkin_Confirm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_Checkin_ConfirmActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btn_Checkin_Confirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 420, -1, -1));
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
 
         btn_Checkin_Reset.setText("RESET");
         btn_Checkin_Reset.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -305,7 +342,39 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
                 btn_Checkin_ResetActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_Checkin_Reset, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, -1, -1));
+        jPanel7.add(btn_Checkin_Reset);
+
+        btn_CheckIn.setText("CHECK IN");
+        btn_CheckIn.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_CheckIn.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_CheckIn.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_CheckIn.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_CheckIn.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_CheckIn.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_CheckIn.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_CheckIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CheckInActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btn_CheckIn);
+
+        btn_CheckOut.setText("CHECK OUT");
+        btn_CheckOut.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_CheckOut.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_CheckOut.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_CheckOut.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_CheckOut.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_CheckOut.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_CheckOut.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_CheckOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CheckOutActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btn_CheckOut);
+
+        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, 480, -1));
 
         jPanel1.add(jPanel3);
 
@@ -387,14 +456,10 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_Checkin_ConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Checkin_ConfirmActionPerformed
+    private void btn_CheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CheckInActionPerformed
         // TODO add your handling code here:\
         conFirm();
-        this.setVisible(false);
-        home h = new home();
-        h.setVisible(true);
-
-    }//GEN-LAST:event_btn_Checkin_ConfirmActionPerformed
+    }//GEN-LAST:event_btn_CheckInActionPerformed
 
     private void btn_Checkin_ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Checkin_ResetActionPerformed
         clearForm();
@@ -403,17 +468,23 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
     }//GEN-LAST:event_btn_Checkin_ResetActionPerformed
 
     private void bt_UseCameraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_UseCameraActionPerformed
+        clearForm();
         initWebcam();
         webcam.open();
-
         showPanelMenu(pnl_camera);
+        numberCheck++;
     }//GEN-LAST:event_bt_UseCameraActionPerformed
 
     private void btn_CANCELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CANCELActionPerformed
         if (MsgBox.confirm(this, "Are you sure want to exit ?")) {
-            System.exit(0);
+            this.dispose();
         }
     }//GEN-LAST:event_btn_CANCELActionPerformed
+
+    private void btn_CheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CheckOutActionPerformed
+        // TODO add your handling code here:
+        conFirm();
+    }//GEN-LAST:event_btn_CheckOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -453,7 +524,8 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.k33ptoo.components.KButton bt_UseCamera;
     private com.k33ptoo.components.KButton btn_CANCEL;
-    private com.k33ptoo.components.KButton btn_Checkin_Confirm;
+    private com.k33ptoo.components.KButton btn_CheckIn;
+    private com.k33ptoo.components.KButton btn_CheckOut;
     private com.k33ptoo.components.KButton btn_Checkin_Reset;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -467,6 +539,7 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JLabel lbl_ID;
     private javax.swing.JLabel lbl_checkIn_logoQR;
     private javax.swing.JLabel lbl_img;
@@ -486,7 +559,7 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
             try {
                 Thread.sleep(100);
             } catch (Exception ex) {
-                Logger.getLogger(CheckIn.class.getName()).log(Level.SEVERE, null, ex);
+
             }
 
             Result rs = null;
@@ -503,7 +576,7 @@ public class CheckIn extends javax.swing.JFrame implements Runnable, ThreadFacto
             try {
                 rs = new MultiFormatReader().decode(bitmap);
             } catch (NotFoundException ex) {
-                Logger.getLogger(CheckIn.class.getName()).log(Level.SEVERE, null, ex);
+
             }
 
             if (rs != null) {

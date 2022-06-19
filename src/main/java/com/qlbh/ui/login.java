@@ -168,7 +168,7 @@ public class login extends javax.swing.JFrame {
 
         btn_Qrlogin.setBackground(new java.awt.Color(153, 153, 153));
         btn_Qrlogin.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        btn_Qrlogin.setText(" SCAN WITH QR CODE             ");
+        btn_Qrlogin.setText(" LOGIN WITH QR CODE             ");
         btn_Qrlogin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btn_Qrlogin.setContentAreaFilled(false);
         btn_Qrlogin.addMouseListener(new java.awt.event.MouseAdapter() {

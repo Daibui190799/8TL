@@ -4,6 +4,7 @@
  */
 package com.qlbh.utils;
 
+import com.qlbh.entity.CHECKIN;
 import com.qlbh.entity.CUSTOMER;
 import com.qlbh.entity.DELIVERY;
 import com.qlbh.entity.EMPLOYEE;
@@ -21,5 +22,6 @@ public class getInfo {
     public static QLDH qldh = null;
     public static RECEIPT receipt = null;
     public static INVENTORY inventory = null;
+    public static CHECKIN checkin = null;
     public static EMPLOYEE employee = null;
 }

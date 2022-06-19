@@ -2567,8 +2567,8 @@ public class home extends javax.swing.JFrame {
         List<CUSTOMER> listKH = qlkhachhang.selectAll();
         fillToTable_CUSTOMER(listKH);
 
-        fillTableOrderMana();
-        fillTableOrderDetails();
+//        fillTableOrderMana();
+//        fillTableOrderDetails();
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(16);
         showInfoAccAndPanelAccount();
 
@@ -2910,31 +2910,31 @@ public class home extends javax.swing.JFrame {
 
     }
 
-    private void fillTableOrderMana() {
-        tbl_OrderMana.removeAll();
-        DefaultTableModel model = (DefaultTableModel) tbl_OrderMana.getModel();
-        model.setRowCount(0);
-//        listDH = new QLDHDAO().selectAll();
-//        for (QLDH item : listDH) {
-//            model.addRow(new Object[]{item.getMADH(), item.getMAKH(), item.getNgTao(),
-//                item.getDONGIA(), item.getGHICHU()});
+//    private void fillTableOrderMana() {
+//        tbl_OrderMana.removeAll();
+//        DefaultTableModel model = (DefaultTableModel) tbl_OrderMana.getModel();
+//        model.setRowCount(0);
+////        listDH = new QLDHDAO().selectAll();
+////        for (QLDH item : listDH) {
+////            model.addRow(new Object[]{item.getMADH(), item.getMAKH(), item.getNgTao(),
+////                item.getDONGIA(), item.getGHICHU()});
+////        }
+//        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderMana_search.getText());
+//        for (Object[] row : list) {
+//            model.addRow(row);
+//
 //        }
-        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderMana_search.getText());
-        for (Object[] row : list) {
-            model.addRow(row);
-
-        }
-        //int a = Integer.parseInt((String) tbl_OrderMana.getValueAt(2, 7));
-//        for(int i=0;i<8;i++){
-//            System.out.println(((Object)tbl_OrderMana.getValueAt(2, i)).getClass
-//        ().getSimpleName()
-
-//   );
-//            System.out.println(tbl_OrderMana.getValueAt(2, i));
-//        }
-//        Date ngay = XDate.toDate((String)tbl_OrderMana.getValueAt(2, 5),"dd/MM/yyyy");
-//        System.out.println(ngay);
-    }
+//        //int a = Integer.parseInt((String) tbl_OrderMana.getValueAt(2, 7));
+////        for(int i=0;i<8;i++){
+////            System.out.println(((Object)tbl_OrderMana.getValueAt(2, i)).getClass
+////        ().getSimpleName()
+//
+////   );
+////            System.out.println(tbl_OrderMana.getValueAt(2, i));
+////        }
+////        Date ngay = XDate.toDate((String)tbl_OrderMana.getValueAt(2, 5),"dd/MM/yyyy");
+////        System.out.println(ngay);
+//    }
 
 //    public String cusName(String cusID) {
 //        CUSTOMERDAO customerdao = new CUSTOMERDAO();
@@ -2944,15 +2944,15 @@ public class home extends javax.swing.JFrame {
 //        }
 //        return null;
 //    }
-    private void fillTableOrderDetails() {
-        tbl_OrderMana.removeAll();
-        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetails.getModel();
-        model.setRowCount(0);
-        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderDetails_search.getText());
-        for (Object[] row : list) {
-            model.addRow(row);
-        }
-    }
+//    private void fillTableOrderDetails() {
+//        tbl_OrderMana.removeAll();
+//        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetails.getModel();
+//        model.setRowCount(0);
+//        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderDetails_search.getText());
+//        for (Object[] row : list) {
+//            model.addRow(row);
+//        }
+//    }
 
     private void btn_HomeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HomeMouseEntered
         // TODO add your handling code here:
@@ -3144,7 +3144,11 @@ public class home extends javax.swing.JFrame {
     private void btn_LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LogOutActionPerformed
         // TODO add your handling code here:
         // code change Tab here
-        if (MsgBox.confirm(this, "Are you sure you want to sign out?")) {
+        if (MsgBox.confirm(this, "Do you want to check out before exit?")) {
+            CheckIn ck = new CheckIn();
+            ck.setEnableButton("out");
+            ck.setVisible(true);
+        }else if (MsgBox.confirm(this, "Are you sure you want to sign out?")) {
             Auth.user = null;
             login lg = new login();
             this.setVisible(false);
@@ -3483,12 +3487,12 @@ public class home extends javax.swing.JFrame {
 
     private void txt_OrderMana_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_OrderMana_searchKeyReleased
         // TODO add your handling code here:
-        fillTableOrderMana();
+//        fillTableOrderMana();
     }//GEN-LAST:event_txt_OrderMana_searchKeyReleased
 
     private void txt_OrderDetails_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_OrderDetails_searchKeyReleased
         // TODO add your handling code here:
-        fillTableOrderDetails();
+//        fillTableOrderDetails();
     }//GEN-LAST:event_txt_OrderDetails_searchKeyReleased
 
     private void tbl_OrderDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_OrderDetailsMouseClicked
@@ -3510,32 +3514,32 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        Warning_Delete wid = new Warning_Delete();
 //        wid.show();
-        if (MsgBox.confirm(this, "Are you sure?")) {
-            String madh = String.valueOf(tbl_OrderMana.getValueAt(tbl_OrderMana.getSelectedRow(), 0));
-            try {
-                qldhdao.delete(madh);
-                this.fillTableOrderMana();
-                this.fillTableOrderDetails();
-                MsgBox.alert(this, "Delete successfully!");
-            } catch (Exception e) {
-                MsgBox.alert(this, "Delete failed!");
-            }
-        }
+//        if (MsgBox.confirm(this, "Are you sure?")) {
+//            String madh = String.valueOf(tbl_OrderMana.getValueAt(tbl_OrderMana.getSelectedRow(), 0));
+//            try {
+//                qldhdao.delete(madh);
+//                this.fillTableOrderMana();
+//                this.fillTableOrderDetails();
+//                MsgBox.alert(this, "Delete successfully!");
+//            } catch (Exception e) {
+//                MsgBox.alert(this, "Delete failed!");
+//            }
+//        }
     }//GEN-LAST:event_btn_OrderMana_deleteActionPerformed
 
     private void btn_OrderDetails_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderDetails_DeleteActionPerformed
         // TODO add your handling code here:
-        if (MsgBox.confirm(this, "Are you sure?")) {
-            String madh = String.valueOf(tbl_OrderDetails.getValueAt(tbl_OrderDetails.getSelectedRow(), 0));
-            try {
-                receiptdao.delete(madh);
-                this.fillTableOrderMana();
-                this.fillTableOrderDetails();
-                MsgBox.alert(this, "Delete successfully!");
-            } catch (Exception e) {
-                MsgBox.alert(this, "Delete failed!");
-            }
-        }
+//        if (MsgBox.confirm(this, "Are you sure?")) {
+//            String madh = String.valueOf(tbl_OrderDetails.getValueAt(tbl_OrderDetails.getSelectedRow(), 0));
+//            try {
+//                receiptdao.delete(madh);
+//                this.fillTableOrderMana();
+//                this.fillTableOrderDetails();
+//                MsgBox.alert(this, "Delete successfully!");
+//            } catch (Exception e) {
+//                MsgBox.alert(this, "Delete failed!");
+//            }
+//        }
     }//GEN-LAST:event_btn_OrderDetails_DeleteActionPerformed
 
     private void filter_AccMana() {
