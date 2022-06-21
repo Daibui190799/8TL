@@ -3269,6 +3269,24 @@ public class home extends javax.swing.JFrame {
 
     private void btn_OrderDetails_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderDetails_ExportActionPerformed
         // TODO add your handling code here:
+//        String madh = String.valueOf(tbl_OrderDetails.getValueAt(tbl_OrderDetails.getSelectedRow(), 0));
+//        if (!madh.equals("")) {
+//            Invoice invoice = new Invoice();
+//            invoice.show();
+//        } else {
+//            MsgBox.alert(this, "This receipt doesn't exist!");
+//        }
+
+        int index = tbl_OrderDetails.getSelectedRow();
+        RECEIPT receipt = receiptdao.selectebyID(tbl_OrderDetails.getValueAt(index, 0).toString());
+        getInfo.receipt = receipt;
+        if (receipt!=null) {
+            Invoice invoice = new Invoice();
+            invoice.show();
+            invoice.fillToForm();
+        } else {
+            MsgBox.alert(this, "This receipt doesn't exist!");
+        }
     }//GEN-LAST:event_btn_OrderDetails_ExportActionPerformed
 
     private void txt_CUSMANA_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CUSMANA_SearchActionPerformed
