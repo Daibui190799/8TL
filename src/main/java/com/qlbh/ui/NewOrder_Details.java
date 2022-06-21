@@ -193,8 +193,8 @@ public class NewOrder_Details extends javax.swing.JFrame {
 
         tbl_OrderDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "VALUE", "1", "50.000", null},
-                {"2", "VALUE", "3", null, null},
+                {"", "", "", "", null},
+                {"", "", "", null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -523,13 +523,16 @@ public class NewOrder_Details extends javax.swing.JFrame {
             btn_NewOrderDetail_add.setVisible(true);
             btn_NewOrderDetail_edit.setEnabled(false);
             btn_NewOrderDetail_edit.setVisible(false);
+            txt_NewOrder_Total.setEditable(false);
+            cbo_NewOrderDetail_OrderID.setEnabled(true);
             clearAll();
         } else if (addorEdit.equalsIgnoreCase("edit")) {
             btn_NewOrderDetail_add.setEnabled(false);
             btn_NewOrderDetail_add.setVisible(false);
             btn_NewOrderDetail_edit.setEnabled(true);
             btn_NewOrderDetail_edit.setVisible(true);
-            cbo_NewOrderDetail_OrderID.setEditable(false);
+            txt_NewOrder_Total.setEditable(false);
+            cbo_NewOrderDetail_OrderID.setEnabled(false);
         }
     }
 }
