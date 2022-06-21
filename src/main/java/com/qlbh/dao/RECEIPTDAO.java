@@ -18,7 +18,8 @@ import java.util.logging.Logger;
  *
  * @author HT
  */
-public class RECEIPTDAO extends QLBHDAO<RECEIPT, String>{
+public class RECEIPTDAO extends QLBHDAO<RECEIPT, String> {
+
     String INSERT_SQL = "INSERT INTO RECEIPT(MA_DH, MA_VanChuyen, MA_SP, SOLUONG, GHI_CHU) VALUES (?,?,?,?,?)";
     String UPDATE_SQL = "UPDATE RECEIPT SET MA_DH=?, MA_VanChuyen=?, MA_SP=?, SOLUONG=?, GHICHU=? WHERE MA_DH=?";
     String DELETE_SQL = "DELETE FROM RECEIPT WHERE MA_DH=?";
@@ -57,7 +58,7 @@ public class RECEIPTDAO extends QLBHDAO<RECEIPT, String>{
         try {
             XJdbc.update(DELETE_SQL, id);
         } catch (SQLException ex) {
-            Logger.getLogger(DELIVERYDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RECEIPTDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -97,5 +98,39 @@ public class RECEIPTDAO extends QLBHDAO<RECEIPT, String>{
             throw new RuntimeException(ex);
         }
 
+    }
+
+    private List<Object[]> getListOfArray(String sql, String[] cols, Object... args) {
+        try {
+            List<Object[]> list = new ArrayList<>();
+            ResultSet rs = XJdbc.query(sql, args);
+            while (rs.next()) {
+                Object[] vals = new Object[cols.length];
+                for (int i = 0; i < cols.length; i++) {
+                    vals[i] = rs.getObject(cols[i]);
+                }
+                list.add(vals);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Object[]> getOrderTableByKeyword(String keyword) {
+        String sql = "{CALL sp_OrderTableByKeyword(?)}";
+        String[] cols = {"ORDER_ID", "CUSTOMER_ID", "CUSTOMER_NAME",
+            "PRODUCT_ID", "PRODUCT_NAME", "DATE_CREATE", "QTY", "PRICE", "NOTE"};
+        return this.getListOfArray(sql, cols, "%" + keyword + "%");
+    }
+
+    public Object getTotal(String id) {
+        try {
+            String sql = "{CALL sp_Total(?)}";
+            return XJdbc.value(sql, id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

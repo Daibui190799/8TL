@@ -14,10 +14,13 @@ import com.qlbh.entity.QLDH;
 import com.qlbh.entity.RECEIPT;
 import com.qlbh.utils.MsgBox;
 import com.qlbh.utils.XImage;
+import com.qlbh.utils.getInfo;
 
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ACER
@@ -32,8 +35,8 @@ public class NewOrder_Details extends javax.swing.JFrame {
         this.setIconImage(XImage.getAppIcon());
         this.setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //setLocation(DEFAULT_CURSOR, 195);
-        this.setLocationRelativeTo(null);
+        setLocation(DEFAULT_CURSOR, 195);
+        //this.setLocationRelativeTo(null);
         this.fillComboBoxOrderID();
         this.fillComboBoxDeliveryID();
         this.fillComboBoxProductID();
@@ -379,7 +382,36 @@ public class NewOrder_Details extends javax.swing.JFrame {
     QLKHODAO qlkhodao = new QLKHODAO();
     RECEIPTDAO receiptdao = new RECEIPTDAO();
     int qty = 0;
-    
+
+    public void fillToForm() {
+        RECEIPT receipt = getInfo.receipt;
+        if (receipt != null) {
+            cbo_NewOrderDetail_OrderID.getModel().setSelectedItem(receipt.getMADH());
+            cbo_NewOrderDetail_DeliveryID.getModel().setSelectedItem(receipt.getMAVanChuyen());
+            cbo_NewOrderDetail_ProductID.getModel().setSelectedItem(receipt.getMASP());
+            sp_NewOrderDettail_QTY.setValue(receipt.getSOLUONG());
+            txt_NewOrder_Note.setText(receipt.getGHICHU());
+            txt_NewOrder_Total.setText(String.valueOf(receiptdao.getTotal(receipt.getMADH())));
+            fillTableOrderDetail();
+        }
+    }
+
+    private void fillTableOrderDetail() {
+        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetail.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object[]> list = receiptdao.getOrderTableByKeyword(String.valueOf(cbo_NewOrderDetail_OrderID.getSelectedItem()));
+            for (Object[] row : list) {
+                if (row[3] != null) {
+                    model.addRow(new Object[]{row[3], row[4], row[6], row[7], row[8]});
+                }
+            }
+            
+        } catch (Exception e) {
+
+        }
+    }
+
     private void fillComboBoxOrderID() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbo_NewOrderDetail_OrderID.getModel();
         model.removeAllElements();
@@ -388,7 +420,7 @@ public class NewOrder_Details extends javax.swing.JFrame {
             model.addElement(item);
         }
     }
-    
+
     private void fillComboBoxDeliveryID() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbo_NewOrderDetail_DeliveryID.getModel();
         model.removeAllElements();
@@ -397,7 +429,7 @@ public class NewOrder_Details extends javax.swing.JFrame {
             model.addElement(item);
         }
     }
-    
+
     private void fillComboBoxProductID() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbo_NewOrderDetail_ProductID.getModel();
         model.removeAllElements();
@@ -406,7 +438,7 @@ public class NewOrder_Details extends javax.swing.JFrame {
             model.addElement(item);
         }
     }
-    
+
     private boolean validateForm() {
         String Error = "";
         int qty = sp_NewOrderDettail_QTY.getValue().hashCode();
@@ -419,13 +451,13 @@ public class NewOrder_Details extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     private void clearAll() {
         sp_NewOrderDettail_QTY.setValue(0);
         txt_NewOrder_Total.setText("");
         txt_NewOrder_Note.setText("");
     }
-    
+
     private RECEIPT getForm() {
         RECEIPT receipt = new RECEIPT();
         if (validateForm()) {
@@ -439,14 +471,14 @@ public class NewOrder_Details extends javax.swing.JFrame {
         }
         return receipt;
     }
-    
+
     private void setForm(RECEIPT receipt) {
         cbo_NewOrderDetail_OrderID.setSelectedItem(receipt.getMADH());
         cbo_NewOrderDetail_DeliveryID.setSelectedItem(receipt.getMAVanChuyen());
         cbo_NewOrderDetail_ProductID.setSelectedItem(receipt.getMASP());
         sp_NewOrderDettail_QTY.setValue(receipt.getSOLUONG());
         txt_NewOrder_Note.setText(receipt.getGHICHU());
+        txt_NewOrder_Total.setText(String.valueOf(receiptdao.getTotal(receipt.getMADH())));
     }
-    
-    
+
 }

@@ -10,11 +10,14 @@ import com.qlbh.dao.QLNVDAO;
 import com.qlbh.entity.CUSTOMER;
 import com.qlbh.entity.EMPLOYEE;
 import com.qlbh.entity.QLDH;
+import com.qlbh.entity.RECEIPT;
 import com.qlbh.utils.MsgBox;
 import com.qlbh.utils.XImage;
+import com.qlbh.utils.getInfo;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,8 +33,8 @@ public class NewOrder extends javax.swing.JFrame {
         this.setIconImage(XImage.getAppIcon());
         this.setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //setLocation(DEFAULT_CURSOR, 195);
-        this.setLocationRelativeTo(null);
+        setLocation(DEFAULT_CURSOR, 195);
+        //this.setLocationRelativeTo(null);
         this.fillComboBoxUserID();
         this.fillComboBoxCustomerID();
     }
@@ -375,6 +378,34 @@ public class NewOrder extends javax.swing.JFrame {
     CUSTOMERDAO cdao = new CUSTOMERDAO();
     int price = 0;
     int row = -1;
+
+    public void fillToForm() {
+        QLDH qldh = getInfo.qldh;
+        if (qldh != null) {
+            txt_NewOrder_OrderID.setText(qldh.getMADH());
+            cbo_NewOrder_UserID.getModel().setSelectedItem(qldh.getMANV());
+            cbo_NewOrder_CustomerID.getModel().setSelectedItem(qldh.getMAKH());
+            txt_NewOrder_Price.setText(String.valueOf(qldh.getDONGIA()));
+            jDate_NewOrder_OrderDate.setDate(qldh.getNgTao());
+            txt_NewOrder_Note.setText(qldh.getGHICHU());
+            fillTableOrderDetail();
+        }
+    }
+
+    private void fillTableOrderDetail() {
+        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetail.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_NewOrder_OrderID.getText());
+            for (Object[] row : list) {
+                if (row[3] != null) {
+                    model.addRow(new Object[]{row[3], row[4], row[6], row[7], row[8]});
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
 
     private void fillComboBoxUserID() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbo_NewOrder_UserID.getModel();

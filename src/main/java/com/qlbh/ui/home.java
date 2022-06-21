@@ -9,6 +9,7 @@ import com.qlbh.entity.CUSTOMER;
 import com.qlbh.entity.EMPLOYEE;
 import com.qlbh.entity.INVENTORY;
 import com.qlbh.entity.QLDH;
+import com.qlbh.entity.RECEIPT;
 import com.qlbh.utils.Auth;
 import com.qlbh.utils.Chart;
 import com.qlbh.utils.MsgBox;
@@ -2551,7 +2552,6 @@ public class home extends javax.swing.JFrame {
 
     DOANHTHUDAO doanhthudao = new DOANHTHUDAO();
 
-
     private void init() {
         btn_CheckClickMenu = btn_Home;
         showPanelMenu(pnl_Home);
@@ -2567,13 +2567,12 @@ public class home extends javax.swing.JFrame {
         List<CUSTOMER> listKH = qlkhachhang.selectAll();
         fillToTable_CUSTOMER(listKH);
 
-//        fillTableOrderMana();
-//        fillTableOrderDetails();
+        fillTableOrderMana();
+        fillTableOrderDetails();
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(16);
         showInfoAccAndPanelAccount();
 
 //        fillToCBOChartYear();
-
     }
 
     private void showInfoAccAndPanelAccount() {
@@ -2754,7 +2753,6 @@ public class home extends javax.swing.JFrame {
 ////                System.out.println(String.valueOf(year));
 //        }
 //    }
-
     private void setImageSlide() {
         File f = new File("");
         String duongdanBanner = "\\src\\main\\resources\\com\\qlbh\\icon\\slide\\";
@@ -2910,31 +2908,31 @@ public class home extends javax.swing.JFrame {
 
     }
 
-//    private void fillTableOrderMana() {
-//        tbl_OrderMana.removeAll();
-//        DefaultTableModel model = (DefaultTableModel) tbl_OrderMana.getModel();
-//        model.setRowCount(0);
-////        listDH = new QLDHDAO().selectAll();
-////        for (QLDH item : listDH) {
+    private void fillTableOrderMana() {
+        tbl_OrderMana.removeAll();
+        DefaultTableModel model = (DefaultTableModel) tbl_OrderMana.getModel();
+        model.setRowCount(0);
+//        listDH = new QLDHDAO().selectAll();
+//        for (QLDH item : listDH) {
 ////            model.addRow(new Object[]{item.getMADH(), item.getMAKH(), item.getNgTao(),
 ////                item.getDONGIA(), item.getGHICHU()});
 ////        }
-//        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderMana_search.getText());
-//        for (Object[] row : list) {
-//            model.addRow(row);
-//
-//        }
-//        //int a = Integer.parseInt((String) tbl_OrderMana.getValueAt(2, 7));
+        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderMana_search.getText());
+        for (Object[] row : list) {
+            model.addRow(row);
+
+        }
+        //int a = Integer.parseInt((String) tbl_OrderMana.getValueAt(2, 7));
 ////        for(int i=0;i<8;i++){
 ////            System.out.println(((Object)tbl_OrderMana.getValueAt(2, i)).getClass
 ////        ().getSimpleName()
-//
+
 ////   );
 ////            System.out.println(tbl_OrderMana.getValueAt(2, i));
 ////        }
 ////        Date ngay = XDate.toDate((String)tbl_OrderMana.getValueAt(2, 5),"dd/MM/yyyy");
 ////        System.out.println(ngay);
-//    }
+    }
 
 //    public String cusName(String cusID) {
 //        CUSTOMERDAO customerdao = new CUSTOMERDAO();
@@ -2944,15 +2942,15 @@ public class home extends javax.swing.JFrame {
 //        }
 //        return null;
 //    }
-//    private void fillTableOrderDetails() {
-//        tbl_OrderMana.removeAll();
-//        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetails.getModel();
-//        model.setRowCount(0);
-//        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderDetails_search.getText());
-//        for (Object[] row : list) {
-//            model.addRow(row);
-//        }
-//    }
+    private void fillTableOrderDetails() {
+        tbl_OrderMana.removeAll();
+        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetails.getModel();
+        model.setRowCount(0);
+        List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_OrderDetails_search.getText());
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
+    }
 
     private void btn_HomeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HomeMouseEntered
         // TODO add your handling code here:
@@ -3148,7 +3146,7 @@ public class home extends javax.swing.JFrame {
             CheckIn ck = new CheckIn();
             ck.setEnableButton("out");
             ck.setVisible(true);
-        }else if (MsgBox.confirm(this, "Are you sure you want to sign out?")) {
+        } else if (MsgBox.confirm(this, "Are you sure you want to sign out?")) {
             Auth.user = null;
             login lg = new login();
             this.setVisible(false);
@@ -3394,7 +3392,7 @@ public class home extends javax.swing.JFrame {
 
     private void btn_Acc_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Acc_SaveActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btn_Acc_SaveActionPerformed
 
     public void searchAccMana() {
@@ -3487,59 +3485,83 @@ public class home extends javax.swing.JFrame {
 
     private void txt_OrderMana_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_OrderMana_searchKeyReleased
         // TODO add your handling code here:
-//        fillTableOrderMana();
+        fillTableOrderMana();
     }//GEN-LAST:event_txt_OrderMana_searchKeyReleased
 
     private void txt_OrderDetails_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_OrderDetails_searchKeyReleased
         // TODO add your handling code here:
-//        fillTableOrderDetails();
+        fillTableOrderDetails();
     }//GEN-LAST:event_txt_OrderDetails_searchKeyReleased
 
     private void tbl_OrderDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_OrderDetailsMouseClicked
         // TODO add your handling code here:
+        NewOrder_Details nod = new NewOrder_Details();
         int index = tbl_OrderDetails.getSelectedRow();
+        RECEIPT receipt = receiptdao.selectebyID(tbl_OrderDetails.getValueAt(index, 0).toString());
+        getInfo.receipt = receipt;
 
+        if (evt.getClickCount() == 2) {
+            if (receipt != null) {
+                nod.setVisible(true);
+                nod.fillToForm();
+            } else {
+                MsgBox.alert(this, "This order has no receipt yet!");
+            }
+        }
     }//GEN-LAST:event_tbl_OrderDetailsMouseClicked
 
     private void tbl_OrderManaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_OrderManaMouseClicked
         // TODO add your handling code here:
+        NewOrder new_order = new NewOrder();
         int index = tbl_OrderMana.getSelectedRow();
         QLDH qldh = qldhdao.selectebyID(tbl_OrderMana.getValueAt(index, 0).toString());
         getInfo.qldh = qldh;
+        //new_order.fillToForm();
         System.out.println(qldh.getMADH());
 
+        if (evt.getClickCount() == 2) {
+            new_order.setVisible(true);
+            new_order.fillToForm();
+        }
+
+//        int index = tbl_INVENMANA.getSelectedRow();
+//        INVENTORY inv = qlkhodao.selectebyID(tbl_INVENMANA.getValueAt(index, 0).toString());
+//        getInfo.inventory = inv;
+//        items.setEnableButton("edit");
+//        items.fillToForm();
+//        System.out.println(inv.getTENSP());
     }//GEN-LAST:event_tbl_OrderManaMouseClicked
 
     private void btn_OrderMana_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderMana_deleteActionPerformed
         // TODO add your handling code here:
 //        Warning_Delete wid = new Warning_Delete();
 //        wid.show();
-//        if (MsgBox.confirm(this, "Are you sure?")) {
-//            String madh = String.valueOf(tbl_OrderMana.getValueAt(tbl_OrderMana.getSelectedRow(), 0));
-//            try {
-//                qldhdao.delete(madh);
-//                this.fillTableOrderMana();
-//                this.fillTableOrderDetails();
-//                MsgBox.alert(this, "Delete successfully!");
-//            } catch (Exception e) {
-//                MsgBox.alert(this, "Delete failed!");
-//            }
-//        }
+        if (MsgBox.confirm(this, "Are you sure?")) {
+            String madh = String.valueOf(tbl_OrderMana.getValueAt(tbl_OrderMana.getSelectedRow(), 0));
+            try {
+                qldhdao.delete(madh);
+                this.fillTableOrderMana();
+                this.fillTableOrderDetails();
+                MsgBox.alert(this, "Delete successfully!");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Delete failed!");
+            }
+        }
     }//GEN-LAST:event_btn_OrderMana_deleteActionPerformed
 
     private void btn_OrderDetails_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderDetails_DeleteActionPerformed
         // TODO add your handling code here:
-//        if (MsgBox.confirm(this, "Are you sure?")) {
-//            String madh = String.valueOf(tbl_OrderDetails.getValueAt(tbl_OrderDetails.getSelectedRow(), 0));
-//            try {
-//                receiptdao.delete(madh);
-//                this.fillTableOrderMana();
-//                this.fillTableOrderDetails();
-//                MsgBox.alert(this, "Delete successfully!");
-//            } catch (Exception e) {
-//                MsgBox.alert(this, "Delete failed!");
-//            }
-//        }
+        if (MsgBox.confirm(this, "Are you sure?")) {
+            String madh = String.valueOf(tbl_OrderDetails.getValueAt(tbl_OrderDetails.getSelectedRow(), 0));
+            try {
+                receiptdao.delete(madh);
+                this.fillTableOrderMana();
+                this.fillTableOrderDetails();
+                MsgBox.alert(this, "Delete successfully!");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Delete failed!");
+            }
+        }
     }//GEN-LAST:event_btn_OrderDetails_DeleteActionPerformed
 
     private void filter_AccMana() {
@@ -3561,7 +3583,6 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         filter_AccMana();
     }//GEN-LAST:event_cbo_AccMana_SapXepActionPerformed
-
 
     /**
      * @param args the command line arguments
