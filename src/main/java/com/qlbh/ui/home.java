@@ -3258,11 +3258,13 @@ public class home extends javax.swing.JFrame {
     private void btn_OrderMana_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderMana_AddActionPerformed
         NewOrder nod = new NewOrder();
         nod.show();
+        nod.setEnableButton("add");
     }//GEN-LAST:event_btn_OrderMana_AddActionPerformed
 
     private void btn_OrderDetails_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderDetails_AddActionPerformed
         NewOrder_Details nodt = new NewOrder_Details();
         nodt.show();
+        nodt.setEnableButton("add");
     }//GEN-LAST:event_btn_OrderDetails_AddActionPerformed
 
     private void btn_OrderDetails_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OrderDetails_ExportActionPerformed
@@ -3504,6 +3506,7 @@ public class home extends javax.swing.JFrame {
             if (receipt != null) {
                 nod.setVisible(true);
                 nod.fillToForm();
+                nod.setEnableButton("edit");
             } else {
                 MsgBox.alert(this, "This order has no receipt yet!");
             }
@@ -3522,6 +3525,7 @@ public class home extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             new_order.setVisible(true);
             new_order.fillToForm();
+            new_order.setEnableButton("edit");
         }
 
 //        int index = tbl_INVENMANA.getSelectedRow();

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class RECEIPTDAO extends QLBHDAO<RECEIPT, String> {
 
     String INSERT_SQL = "INSERT INTO RECEIPT(MA_DH, MA_VanChuyen, MA_SP, SOLUONG, GHI_CHU) VALUES (?,?,?,?,?)";
-    String UPDATE_SQL = "UPDATE RECEIPT SET MA_DH=?, MA_VanChuyen=?, MA_SP=?, SOLUONG=?, GHICHU=? WHERE MA_DH=?";
+    String UPDATE_SQL = "UPDATE RECEIPT SET MA_DH=?, MA_VanChuyen=?, MA_SP=?, SOLUONG=?, GHI_CHU=? WHERE MA_DH=?";
     String DELETE_SQL = "DELETE FROM RECEIPT WHERE MA_DH=?";
     String SELECT_ALL_SQL = "SELECT * FROM RECEIPT";
     String SELECT_BY_ID_SQL = "SELECT * FROM RECEIPT WHERE MA_DH=?";
@@ -47,7 +47,8 @@ public class RECEIPTDAO extends QLBHDAO<RECEIPT, String> {
                     entity.getMAVanChuyen(),
                     entity.getMASP(),
                     entity.getSOLUONG(),
-                    entity.getGHICHU());
+                    entity.getGHICHU(),
+                    entity.getMADH());
         } catch (SQLException ex) {
             Logger.getLogger(RECEIPTDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

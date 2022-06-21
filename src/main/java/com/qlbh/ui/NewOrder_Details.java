@@ -72,7 +72,9 @@ public class NewOrder_Details extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tbl_OrderDetail = new rojerusan.RSTableMetro();
-        btn_NewShipping_add = new com.k33ptoo.components.KButton();
+        jPanel4 = new javax.swing.JPanel();
+        btn_NewOrderDetail_add = new com.k33ptoo.components.KButton();
+        btn_NewOrderDetail_edit = new com.k33ptoo.components.KButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("NEW ORDER DETAILS");
@@ -212,35 +214,16 @@ public class NewOrder_Details extends javax.swing.JFrame {
         tbl_OrderDetail.setRowHeight(35);
         jScrollPane8.setViewportView(tbl_OrderDetail);
 
-        btn_NewShipping_add.setText("ADD");
-        btn_NewShipping_add.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_NewShipping_add.setkEndColor(new java.awt.Color(0, 112, 192));
-        btn_NewShipping_add.setkHoverEndColor(new java.awt.Color(0, 30, 153));
-        btn_NewShipping_add.setkHoverForeGround(new java.awt.Color(255, 255, 255));
-        btn_NewShipping_add.setkHoverStartColor(new java.awt.Color(0, 30, 153));
-        btn_NewShipping_add.setkPressedColor(new java.awt.Color(153, 153, 153));
-        btn_NewShipping_add.setkStartColor(new java.awt.Color(0, 79, 174));
-        btn_NewShipping_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_NewShipping_addActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(266, 266, 266)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(btn_NewShipping_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(266, 266, 266)
+                .addComponent(jLabel2)
+                .addContainerGap(261, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 52, Short.MAX_VALUE)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -251,35 +234,72 @@ public class NewOrder_Details extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(btn_NewShipping_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        btn_NewOrderDetail_add.setText("ADD");
+        btn_NewOrderDetail_add.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_NewOrderDetail_add.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_NewOrderDetail_add.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrderDetail_add.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_NewOrderDetail_add.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrderDetail_add.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_NewOrderDetail_add.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_NewOrderDetail_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NewOrderDetail_addActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_NewOrderDetail_add);
+
+        btn_NewOrderDetail_edit.setText("EDIT");
+        btn_NewOrderDetail_edit.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_NewOrderDetail_edit.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_NewOrderDetail_edit.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrderDetail_edit.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_NewOrderDetail_edit.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrderDetail_edit.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_NewOrderDetail_edit.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_NewOrderDetail_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NewOrderDetail_editActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_NewOrderDetail_edit);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addContainerGap()))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 788, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(129, 129, 129)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(10, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(426, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(420, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,13 +310,13 @@ public class NewOrder_Details extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_NewShipping_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewShipping_addActionPerformed
+    private void btn_NewOrderDetail_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewOrderDetail_addActionPerformed
         // TODO add your handling code here:
         RECEIPT receipt = getForm();
         if (receipt != null) {
@@ -308,7 +328,21 @@ public class NewOrder_Details extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "This receipt already exist!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btn_NewShipping_addActionPerformed
+    }//GEN-LAST:event_btn_NewOrderDetail_addActionPerformed
+
+    private void btn_NewOrderDetail_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewOrderDetail_editActionPerformed
+        // TODO add your handling code here:
+        RECEIPT receipt = getForm();
+        if (receipt != null) {
+            if (receiptdao.selectebyID(receipt.getMADH()) != null) {
+                receiptdao.update(receipt);
+                MsgBox.alert(this, "Update Successfully!");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "This receipt doesn't exist!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btn_NewOrderDetail_editActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,7 +387,8 @@ public class NewOrder_Details extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.k33ptoo.components.KButton btn_NewShipping_add;
+    private com.k33ptoo.components.KButton btn_NewOrderDetail_add;
+    private com.k33ptoo.components.KButton btn_NewOrderDetail_edit;
     private javax.swing.JComboBox<String> cbo_NewOrderDetail_DeliveryID;
     private javax.swing.JComboBox<String> cbo_NewOrderDetail_OrderID;
     private javax.swing.JComboBox<String> cbo_NewOrderDetail_ProductID;
@@ -369,6 +404,7 @@ public class NewOrder_Details extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSpinner sp_NewOrderDettail_QTY;
@@ -481,4 +517,19 @@ public class NewOrder_Details extends javax.swing.JFrame {
         txt_NewOrder_Total.setText(String.valueOf(receiptdao.getTotal(receipt.getMADH())));
     }
 
+    public void setEnableButton(String addorEdit) {
+        if (addorEdit.equalsIgnoreCase("add")) {
+            btn_NewOrderDetail_add.setEnabled(true);
+            btn_NewOrderDetail_add.setVisible(true);
+            btn_NewOrderDetail_edit.setEnabled(false);
+            btn_NewOrderDetail_edit.setVisible(false);
+            clearAll();
+        } else if (addorEdit.equalsIgnoreCase("edit")) {
+            btn_NewOrderDetail_add.setEnabled(false);
+            btn_NewOrderDetail_add.setVisible(false);
+            btn_NewOrderDetail_edit.setEnabled(true);
+            btn_NewOrderDetail_edit.setVisible(true);
+            cbo_NewOrderDetail_OrderID.setEditable(false);
+        }
+    }
 }
