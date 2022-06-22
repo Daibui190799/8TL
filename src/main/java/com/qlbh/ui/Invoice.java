@@ -7,14 +7,18 @@ package com.qlbh.ui;
 import com.qlbh.dao.DELIVERYDAO;
 import com.qlbh.dao.QLDHDAO;
 import com.qlbh.dao.QLKHODAO;
+import com.qlbh.dao.QLNVDAO;
 import com.qlbh.dao.RECEIPTDAO;
 import com.qlbh.entity.DELIVERY;
+import com.qlbh.entity.EMPLOYEE;
 import com.qlbh.entity.INVENTORY;
 import com.qlbh.entity.QLDH;
 import com.qlbh.entity.RECEIPT;
 import com.qlbh.utils.MsgBox;
 import com.qlbh.utils.XImage;
 import com.qlbh.utils.getInfo;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -37,6 +41,8 @@ public class Invoice extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //setLocation(DEFAULT_CURSOR, 195);
         this.setLocationRelativeTo(null);
+        txt_Invoice.setEditable(false);
+        fillToForm();
         printInvoice();
     }
 
@@ -63,7 +69,7 @@ public class Invoice extends javax.swing.JFrame {
         lbl_Invoice_OrderID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Invoice = new javax.swing.JTextArea();
-        btn_NewOrderDetail_add = new com.k33ptoo.components.KButton();
+        btn_Invoice_Print = new com.k33ptoo.components.KButton();
         jScrollPane8 = new javax.swing.JScrollPane();
         tbl_OrderDetail = new rojerusan.RSTableMetro();
 
@@ -123,7 +129,7 @@ public class Invoice extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_Invoice_OrderID)
                             .addComponent(lbl_Invoice_total))))
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +152,7 @@ public class Invoice extends javax.swing.JFrame {
                     .addComponent(lbl_Invoice_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(lbl_Invoice_balance1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(332, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         txt_Invoice.setColumns(20);
@@ -154,26 +160,22 @@ public class Invoice extends javax.swing.JFrame {
         txt_Invoice.setRows(5);
         jScrollPane1.setViewportView(txt_Invoice);
 
-        btn_NewOrderDetail_add.setText("PRINT");
-        btn_NewOrderDetail_add.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_NewOrderDetail_add.setkEndColor(new java.awt.Color(0, 112, 192));
-        btn_NewOrderDetail_add.setkHoverEndColor(new java.awt.Color(0, 30, 153));
-        btn_NewOrderDetail_add.setkHoverForeGround(new java.awt.Color(255, 255, 255));
-        btn_NewOrderDetail_add.setkHoverStartColor(new java.awt.Color(0, 30, 153));
-        btn_NewOrderDetail_add.setkPressedColor(new java.awt.Color(153, 153, 153));
-        btn_NewOrderDetail_add.setkStartColor(new java.awt.Color(0, 79, 174));
-        btn_NewOrderDetail_add.addActionListener(new java.awt.event.ActionListener() {
+        btn_Invoice_Print.setText("PRINT");
+        btn_Invoice_Print.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_Invoice_Print.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_Invoice_Print.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_Invoice_Print.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_Invoice_Print.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_Invoice_Print.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_Invoice_Print.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_Invoice_Print.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_NewOrderDetail_addActionPerformed(evt);
+                btn_Invoice_PrintActionPerformed(evt);
             }
         });
 
         tbl_OrderDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", "", ""},
-                {"", "", "", null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -204,13 +206,13 @@ public class Invoice extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(427, 427, 427)
-                        .addComponent(btn_NewOrderDetail_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(btn_Invoice_Print, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(45, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(505, Short.MAX_VALUE)))
+                    .addContainerGap(542, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,13 +222,13 @@ public class Invoice extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btn_NewOrderDetail_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Invoice_Print, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(70, Short.MAX_VALUE)))
+                    .addContainerGap(397, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -243,10 +245,15 @@ public class Invoice extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_NewOrderDetail_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewOrderDetail_addActionPerformed
+    private void btn_Invoice_PrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Invoice_PrintActionPerformed
         // TODO add your handling code here:
-
-    }//GEN-LAST:event_btn_NewOrderDetail_addActionPerformed
+        if (validateForm()) {
+            double total = Double.valueOf(lbl_Invoice_total.getText());
+            double balance = (Double.valueOf(txt_Invoice_Payment.getText())) - total;
+            lbl_Invoice_balance.setText(new BigDecimal(balance).toPlainString());
+            printInvoice();
+        }
+    }//GEN-LAST:event_btn_Invoice_PrintActionPerformed
 
     /**
      * @param args the command line arguments
@@ -299,7 +306,7 @@ public class Invoice extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.k33ptoo.components.KButton btn_NewOrderDetail_add;
+    private com.k33ptoo.components.KButton btn_Invoice_Print;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -322,7 +329,10 @@ public class Invoice extends javax.swing.JFrame {
     DELIVERYDAO delidao = new DELIVERYDAO();
     QLKHODAO qlkhodao = new QLKHODAO();
     RECEIPTDAO receiptdao = new RECEIPTDAO();
+    QLNVDAO qlnvdao = new QLNVDAO();
+
     double payment = 0;
+    double total = 0;
 
     public void fillToForm() {
         RECEIPT receipt = getInfo.receipt;
@@ -349,16 +359,17 @@ public class Invoice extends javax.swing.JFrame {
 
         }
     }
-    
+
     private boolean validateForm() {
         String Error = "";
         if (txt_Invoice_Payment.getText().equals("")) {
-            Error += "Price must not null! \n";
+            Error += "Payment must not null! \n";
         } else {
             try {
                 payment = Double.parseDouble(txt_Invoice_Payment.getText());
-                if (payment < 0) {
-                    Error += "Price must be greater than 0! \n";
+                total = Double.parseDouble(lbl_Invoice_total.getText());
+                if (payment < total) {
+                    Error += "Payment must be greater than total! \n";
                 }
             } catch (Exception e) {
                 Error += "Price must be number! \n";
@@ -370,10 +381,33 @@ public class Invoice extends javax.swing.JFrame {
         }
         return true;
     }
-    
-    private void printInvoice(){
-        txt_Invoice.setText(txt_Invoice.getText()+"\n  =======================================\n\n");
-        txt_Invoice.setText(txt_Invoice.getText()+"              CUSTOMER INVOICE             \n\n");
-        txt_Invoice.setText(txt_Invoice.getText()+"\n  =======================================\n\n");
+
+    private void printInvoice() {
+        Date today = new Date();
+        RECEIPT receipt = receiptdao.selectebyID(lbl_Invoice_OrderID.getText());
+        QLDH qldh = qldhdao.selectebyID(lbl_Invoice_OrderID.getText());
+        if (receipt != null) {
+            INVENTORY wh = qlkhodao.selectebyID(receipt.getMASP());
+            EMPLOYEE emp = qlnvdao.selectebyID(qldh.getMANV());
+            txt_Invoice.setText("\n  =======================================\n\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "             CUSTOMER INVOICE              \n\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  Date: "+today+"\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  Order ID: "+lbl_Invoice_OrderID.getText()+"\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  Staff: "+emp.getHOTENNV()+"\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  =======================================\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  Item\t\t\tQTY\tPrice\t\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  " + wh.getMASP() + "\t\t\t" + receipt.getSOLUONG() + "\t" + qldh.getDONGIA() + "\n\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  =======================================\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  TOTAL\t\t\t\t"+lbl_Invoice_total.getText()+"\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  Payment\t\t\t"+txt_Invoice_Payment.getText()+"\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "  Balance\t\t\t"+lbl_Invoice_balance.getText()+"\n");
+            txt_Invoice.setText(txt_Invoice.getText() + "\n\n                 THANK YOU!              \n\n");
+//        for(int i=0;i<tbl_OrderDetail.getRowCount();i++){
+//            txt_Invoice.setText(txt_Invoice.getText() + "  "+String.valueOf(tbl_OrderDetail.getValueAt(i, 1))
+//                    +"                  "+String.valueOf(tbl_OrderDetail.getValueAt(i, 2))
+//                    +"     "+String.valueOf(tbl_OrderDetail.getValueAt(i, 3))+"    \n");
+//        }
+        }
+
     }
 }
