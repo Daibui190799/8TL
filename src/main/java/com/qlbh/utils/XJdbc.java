@@ -18,7 +18,7 @@ public class XJdbc {
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String dburl = "jdbc:sqlserver://localhost:1433;databaseName=QLBH;encrypt=true;trustServerCertificate=true;";
     static String user = "sa";
-    static String pass = "123";
+    static String pass = "nhoxmebien1";
     static {
         try {
             Class.forName(driver);
@@ -67,7 +67,7 @@ public class XJdbc {
         try {
             ResultSet rs = XJdbc.query(sql, args);
             if(rs.next()) {
-                return rs.getObject(0);
+                return rs.getObject(1);
             }
             rs.getStatement().getConnection().close();
             return null;

@@ -10,11 +10,14 @@ import com.qlbh.dao.QLNVDAO;
 import com.qlbh.entity.CUSTOMER;
 import com.qlbh.entity.EMPLOYEE;
 import com.qlbh.entity.QLDH;
+import com.qlbh.entity.RECEIPT;
 import com.qlbh.utils.MsgBox;
 import com.qlbh.utils.XImage;
+import com.qlbh.utils.getInfo;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,8 +33,8 @@ public class NewOrder extends javax.swing.JFrame {
         this.setIconImage(XImage.getAppIcon());
         this.setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //setLocation(DEFAULT_CURSOR, 195);
-        this.setLocationRelativeTo(null);
+        setLocation(DEFAULT_CURSOR, 195);
+        //this.setLocationRelativeTo(null);
         this.fillComboBoxUserID();
         this.fillComboBoxCustomerID();
     }
@@ -66,7 +69,9 @@ public class NewOrder extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tbl_OrderDetail = new rojerusan.RSTableMetro();
-        btn_NewShipping_add = new com.k33ptoo.components.KButton();
+        jPanel4 = new javax.swing.JPanel();
+        btn_NewOrder_add = new com.k33ptoo.components.KButton();
+        btn_NewOrder_edit = new com.k33ptoo.components.KButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("NEW ORDER");
@@ -205,33 +210,14 @@ public class NewOrder extends javax.swing.JFrame {
         tbl_OrderDetail.setRowHeight(35);
         jScrollPane8.setViewportView(tbl_OrderDetail);
 
-        btn_NewShipping_add.setText("ADD");
-        btn_NewShipping_add.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_NewShipping_add.setkEndColor(new java.awt.Color(0, 112, 192));
-        btn_NewShipping_add.setkHoverEndColor(new java.awt.Color(0, 30, 153));
-        btn_NewShipping_add.setkHoverForeGround(new java.awt.Color(255, 255, 255));
-        btn_NewShipping_add.setkHoverStartColor(new java.awt.Color(0, 30, 153));
-        btn_NewShipping_add.setkPressedColor(new java.awt.Color(153, 153, 153));
-        btn_NewShipping_add.setkStartColor(new java.awt.Color(0, 79, 174));
-        btn_NewShipping_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_NewShipping_addActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(266, 266, 266)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(btn_NewShipping_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addGap(266, 266, 266)
+                .addComponent(jLabel2)
+                .addContainerGap(272, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(50, Short.MAX_VALUE)
@@ -243,20 +229,54 @@ public class NewOrder extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
-                .addComponent(btn_NewShipping_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(283, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(44, 44, 44)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(68, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        btn_NewOrder_add.setText("ADD");
+        btn_NewOrder_add.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_NewOrder_add.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_NewOrder_add.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrder_add.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_NewOrder_add.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrder_add.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_NewOrder_add.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_NewOrder_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NewOrder_addActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_NewOrder_add);
+
+        btn_NewOrder_edit.setText("EDIT");
+        btn_NewOrder_edit.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_NewOrder_edit.setkEndColor(new java.awt.Color(0, 112, 192));
+        btn_NewOrder_edit.setkHoverEndColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrder_edit.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btn_NewOrder_edit.setkHoverStartColor(new java.awt.Color(0, 30, 153));
+        btn_NewOrder_edit.setkPressedColor(new java.awt.Color(153, 153, 153));
+        btn_NewOrder_edit.setkStartColor(new java.awt.Color(0, 79, 174));
+        btn_NewOrder_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NewOrder_editActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_NewOrder_edit);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 616, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(138, 138, 138)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(150, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
@@ -267,14 +287,17 @@ public class NewOrder extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 758, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(700, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(68, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -294,7 +317,7 @@ public class NewOrder extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_NewShipping_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewShipping_addActionPerformed
+    private void btn_NewOrder_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewOrder_addActionPerformed
         // TODO add your handling code here:
         QLDH qldh = getForm();
         if (qldh != null) {
@@ -307,7 +330,22 @@ public class NewOrder extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "This order already exist!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btn_NewShipping_addActionPerformed
+    }//GEN-LAST:event_btn_NewOrder_addActionPerformed
+
+    private void btn_NewOrder_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewOrder_editActionPerformed
+        // TODO add your handling code here:
+        QLDH qldh = getForm();
+        if (qldh != null) {
+            if (qldhdao.selectebyID(qldh.getMADH()) != null) {
+                qldhdao.update(qldh);
+                MsgBox.alert(this, "Update Successfully!");
+
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "This order doesn't exist!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btn_NewOrder_editActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,7 +384,8 @@ public class NewOrder extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.k33ptoo.components.KButton btn_NewShipping_add;
+    private com.k33ptoo.components.KButton btn_NewOrder_add;
+    private com.k33ptoo.components.KButton btn_NewOrder_edit;
     private javax.swing.JComboBox<String> cbo_NewOrder_CustomerID;
     private javax.swing.JComboBox<String> cbo_NewOrder_UserID;
     private com.toedter.calendar.JDateChooser jDateChooser2;
@@ -362,6 +401,7 @@ public class NewOrder extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane8;
     private rojerusan.RSTableMetro tbl_OrderDetail;
@@ -375,6 +415,34 @@ public class NewOrder extends javax.swing.JFrame {
     CUSTOMERDAO cdao = new CUSTOMERDAO();
     int price = 0;
     int row = -1;
+
+    public void fillToForm() {
+        QLDH qldh = getInfo.qldh;
+        if (qldh != null) {
+            txt_NewOrder_OrderID.setText(qldh.getMADH());
+            cbo_NewOrder_UserID.getModel().setSelectedItem(qldh.getMANV());
+            cbo_NewOrder_CustomerID.getModel().setSelectedItem(qldh.getMAKH());
+            txt_NewOrder_Price.setText(String.valueOf(qldh.getDONGIA()));
+            jDate_NewOrder_OrderDate.setDate(qldh.getNgTao());
+            txt_NewOrder_Note.setText(qldh.getGHICHU());
+            fillTableOrderDetail();
+        }
+    }
+
+    private void fillTableOrderDetail() {
+        DefaultTableModel model = (DefaultTableModel) tbl_OrderDetail.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object[]> list = qldhdao.getOrderTableByKeyword(txt_NewOrder_OrderID.getText());
+            for (Object[] row : list) {
+                if (row[3] != null) {
+                    model.addRow(new Object[]{row[3], row[4], row[6], row[7], row[8]});
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
 
     private void fillComboBoxUserID() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbo_NewOrder_UserID.getModel();
@@ -450,5 +518,21 @@ public class NewOrder extends javax.swing.JFrame {
         txt_NewOrder_Price.setText(String.valueOf(qldh.getDONGIA()));
         jDate_NewOrder_OrderDate.setDate(qldh.getNgTao());
         txt_NewOrder_Note.setText(qldh.getGHICHU());
+    }
+    
+    public void setEnableButton(String addorEdit) {
+        if (addorEdit.equalsIgnoreCase("add")) {
+            btn_NewOrder_add.setEnabled(true);
+            btn_NewOrder_add.setVisible(true);
+            btn_NewOrder_edit.setEnabled(false);
+            btn_NewOrder_edit.setVisible(false);
+            clearAll();
+        } else if (addorEdit.equalsIgnoreCase("edit")) {
+            btn_NewOrder_add.setEnabled(false);
+            btn_NewOrder_add.setVisible(false);
+            btn_NewOrder_edit.setEnabled(true);
+            btn_NewOrder_edit.setVisible(true);
+            txt_NewOrder_OrderID.setEditable(false);
+        }
     }
 }

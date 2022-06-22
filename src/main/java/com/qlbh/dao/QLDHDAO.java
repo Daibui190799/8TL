@@ -40,7 +40,7 @@ public class QLDHDAO extends QLBHDAO<QLDH, String> {
     public void update(QLDH entity) {
         try {
             XJdbc.update(UPDATE_SQL, entity.getMADH(), entity.getMANV(), entity.getMAKH(), entity.getDONGIA(), entity.getNgTao(),
-                    entity.getGHICHU());
+                    entity.getGHICHU(), entity.getMADH());
         } catch (SQLException ex) {
             Logger.getLogger(QLDHDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
