@@ -364,8 +364,6 @@ public class login extends javax.swing.JFrame {
             Auth.user = epl;
             MsgBox.alert(this, "Login successfully!");
             this.dispose();
-            loading ld = new loading(this, true);
-            ld.setVisible(true);
         }
     }
 
