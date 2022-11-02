@@ -1,5 +1,5 @@
 # SHOP MANAGEMENT
-![8TL](https://user-images.githubusercontent.com/106465790/199401375-337ea6e1-46a7-4496-9873-bd6d986596ac.png)
+          ![8TL](https://user-images.githubusercontent.com/106465790/199401375-337ea6e1-46a7-4496-9873-bd6d986596ac.png)
 
 
 # 1. USE CASE
